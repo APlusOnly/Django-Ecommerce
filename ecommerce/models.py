@@ -1,6 +1,18 @@
 from django.db import models
 from django.contrib.auth.models import User
+'''
+DEFAULT_DEPARTMENT_ID = 1 # default should me miscellaneous
+class Department(models.Model):
+    name = models.CharField(max_length=255)
 
+class Category(models.Model):
+    department = models.ForeignKey(Department, on_delete=models.CASECADE)
+    name = models.CharField(max_length=255)
+
+class Size(models.Model):
+    item = models.ForeignKey(Item, default=)
+    size
+'''
 
 class Item(models.Model):
     VISIBLE = (
@@ -100,7 +112,7 @@ class Address(models.Model):
     apartment_number = models.FloatField(max_length=10, null=True)
     postal_code = models.CharField(max_length=10, null=True)
 
-
+# can use the default django User class for some info like name and email, can be user profile
 class User(models.Model):
     first_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255, null=True)
@@ -108,6 +120,7 @@ class User(models.Model):
     picture = models.ImageField(default='#imageurl', null=True, blank=True)
     address = models.ManyToOneRel(Address)
 
+# maybe add payment type like credit card information or such if we want
 class Payment(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     payment_amt = models.FloatField(max_length=20, null=True)
@@ -125,6 +138,7 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
 
+# not necessary maybe, just duplicate info, idk what we need for invoices 
 class Invoice(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     order = models.ForeignKey(Order, null=True, on_delete=models.SET_NULL)
