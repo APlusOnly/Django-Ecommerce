@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Item(models.Model):
     VISIBLE = (
         ('Visible', 'Visible'),
@@ -10,6 +11,9 @@ class Item(models.Model):
         ('In Stock', 'In Stock'),
         ('Currently Unavailable', 'Currently Unavailable')
     )
+    # SUGGESTION
+    # maybe put department into own model, that way we can easily add more departments and categories if needed, more modular
+    # add department class and category class to do it maybe, same with size and colour maybe
     DEPARTMENT = (
         ('Automotive', (
             ('Automotive Care', 'Automotive Care'),
