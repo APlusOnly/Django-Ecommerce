@@ -6,12 +6,13 @@ class Department(models.Model):
     name = models.CharField(max_length=255)
 
 class Category(models.Model):
-    department = models.ForeignKey(Department, on_delete=models.CASECADE)
+    department = models.ForeignKey(Department, on_delete=models.CASECADE, default=DEFAULT_DEPARTMENT_ID)
     name = models.CharField(max_length=255)
 
 class Size(models.Model):
     item = models.ForeignKey(Item, default=)
-    size
+    size # make a touple of choices from xs to xxl
+    stock = models.IntegerField() 
 '''
 
 class Item(models.Model):
@@ -24,7 +25,7 @@ class Item(models.Model):
         ('Currently Unavailable', 'Currently Unavailable')
     )
     # SUGGESTION
-    # maybe put department into own model, that way we can easily add more departments and categories if needed, more modular
+    # maybe put department into own model, this way the admin can add and delete categories and departments much more easily
     # add department class and category class to do it maybe, same with size and colour maybe
     DEPARTMENT = (
         ('Automotive', (
@@ -94,12 +95,12 @@ class Item(models.Model):
     cost = models.FloatField(max_length=20, null=True)
     retail_price = models.FloatField(max_length=20, null=True)
     discount_percent = models.FloatField(max_length=3, null=True)
-    stock = models.CharField(max_length=255, choices=STOCK, null=True)
+    stock = models.CharField(max_length=255, choices=STOCK, null=True) # might be easier to put stock in size class
     department = models.CharField(max_length=255, choices=DEPARTMENT, null=True)
     visible = models.CharField(max_length=255, choices=VISIBLE, null=True)
     picture = models.ImageField(default= '#imageurl', null=True, blank=True)
     brand = models.CharField(max_length=255, null=True)
-    size = models.CharField(max_length=255, null=True, choices=SIZE)
+    size = models.CharField(max_length=255, null=True, choices=SIZE) # make size a foreign key maybe
     description = models.CharField(max_length=255, null=True)
 
 
@@ -113,6 +114,7 @@ class Address(models.Model):
     postal_code = models.CharField(max_length=10, null=True)
 
 # can use the default django User class for some info like name and email, can be user profile
+# maybe we can put all the user stuff into a different app, might be a better practice 
 class User(models.Model):
     first_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255, null=True)
@@ -125,7 +127,8 @@ class Payment(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     payment_amt = models.FloatField(max_length=20, null=True)
 
-class Order(models.Model):
+# maybe add payment to order, so we know how the customer payed for their order
+class Order(models.Model): 
     STATUS = (
         ('Pending', 'Pending'),
         ('Out For Delivery', 'Out For Delivery'),
