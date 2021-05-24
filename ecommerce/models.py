@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-'''
+
+
 DEFAULT_DEPARTMENT_ID = 1 # default should me miscellaneous
 class Department(models.Model):
     name = models.CharField(max_length=255)
@@ -8,10 +9,11 @@ class Department(models.Model):
 class Category(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASECADE, default=DEFAULT_DEPARTMENT_ID)
     name = models.CharField(max_length=255)
-
+    
+'''
 class Size(models.Model):
     item = models.ForeignKey(Item, default=)
-    size # make a touple of choices from xs to xxl
+    size # make a list of choices from xs to xxl
     stock = models.IntegerField() 
 '''
 
@@ -27,6 +29,7 @@ class Item(models.Model):
     # SUGGESTION
     # maybe put department into own model, this way the admin can add and delete categories and departments much more easily
     # add department class and category class to do it maybe, same with size and colour maybe
+    '''
     DEPARTMENT = (
         ('Automotive', (
             ('Automotive Care', 'Automotive Care'),
@@ -85,6 +88,7 @@ class Item(models.Model):
             ('Puzzles', 'Puzzles')
         ))
     )
+    '''
     SIZE = (
         ('Small', 'Small'),
         ('Medium', 'Medium'),
@@ -96,7 +100,7 @@ class Item(models.Model):
     retail_price = models.FloatField(max_length=20, null=True)
     discount_percent = models.FloatField(max_length=3, null=True)
     stock = models.CharField(max_length=255, choices=STOCK, null=True) # might be easier to put stock in size class
-    department = models.CharField(max_length=255, choices=DEPARTMENT, null=True)
+    category = models.ForeignKey(Category)
     visible = models.CharField(max_length=255, choices=VISIBLE, null=True)
     picture = models.ImageField(default= '#imageurl', null=True, blank=True)
     brand = models.CharField(max_length=255, null=True)
@@ -115,17 +119,24 @@ class Address(models.Model):
 
 # can use the default django User class for some info like name and email, can be user profile
 # maybe we can put all the user stuff into a different app, might be a better practice 
-class User(models.Model):
-    first_name = models.CharField(max_length=255, null=True)
-    last_name = models.CharField(max_length=255, null=True)
-    email = models.CharField(max_length=255, null=True)
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     picture = models.ImageField(default='#imageurl', null=True, blank=True)
     address = models.ManyToOneRel(Address)
 
 # maybe add payment type like credit card information or such if we want
 class Payment(models.Model):
+    TYPES = (
+        ('Visa', 'Visa'),
+        ('Debit', 'Debit'),
+        ('MasterCard', 'Master Card'),
+        ('AmericanExpress', 'American Express')
+    )
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    payment_amt = models.FloatField(max_length=20, null=True)
+    card_number = models.CharField(max_length=19)
+    expire_date = models.DateField()
+    cvv = models.CharField(max_length=4)
+    type = models.CharField(choices=TYPES)
 
 # maybe add payment to order, so we know how the customer payed for their order
 class Order(models.Model): 
@@ -140,12 +151,8 @@ class Order(models.Model):
     address = models.ForeignKey(Address, null=True, on_delete=models.SET_NULL)
     date = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
+    payment_used = models.ForeignKey(Payment)
 
-# not necessary maybe, just duplicate info, idk what we need for invoices 
-class Invoice(models.Model):
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    order = models.ForeignKey(Order, null=True, on_delete=models.SET_NULL)
-    amount = models.FloatField(max_length=100, null=True)
 
 class Wishlist(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
