@@ -1,14 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 
 DEFAULT_DEPARTMENT_ID = 1 # default should me miscellaneous
 class Department(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 class Category(models.Model):
     department = models.ForeignKey(Department, null=True ,on_delete=models.SET_NULL, default=DEFAULT_DEPARTMENT_ID)
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
     
 '''
 class Size(models.Model):
@@ -90,6 +95,7 @@ class Item(models.Model):
     )
     '''
     SIZE = (
+        ('No Size', 'No Size'),
         ('Small', 'Small'),
         ('Medium', 'Medium'),
         ('Large', 'Large'),
@@ -107,6 +113,19 @@ class Item(models.Model):
     size = models.CharField(max_length=255, null=True, choices=SIZE) # make size a foreign key maybe
     description = models.CharField(max_length=255, null=True)
 
+    def __str__(self):
+        return self.name
+
+
+class User(models.Model):
+    first_name = models.CharField(max_length=255, null=True)
+    last_name = models.CharField(max_length=255, null=True)
+    email = models.CharField(max_length=255, null=True)
+
+    def __str__(self):
+        full_name = self.first_name + ' ' + self.last_name
+        return full_name
+
 
 class Address(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
@@ -116,6 +135,11 @@ class Address(models.Model):
     street = models.CharField(max_length=255, null=True)
     apartment_number = models.FloatField(max_length=10, null=True)
     postal_code = models.CharField(max_length=10, null=True)
+
+    def __str__(self):
+        full_address = self.country + ' ' + self.province + ' ' + self.postal_code
+        return full_address
+
 
 # can use the default django User class for some info like name and email, can be user profile
 # maybe we can put all the user stuff into a different app, might be a better practice 
@@ -138,6 +162,10 @@ class Payment(models.Model):
     cvv = models.CharField(max_length=4)
     type = models.CharField(max_length=100,choices=TYPES)
 
+    def __str__(self):
+        return self.card_number
+
+
 # maybe add payment to order, so we know how the customer payed for their order
 class Order(models.Model): 
     STATUS = (
@@ -152,6 +180,10 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
     payment_used = models.ForeignKey(Payment, null=True ,on_delete=models.SET_NULL)
+
+    def __str__(self):
+        order_details = self.item.name + ' ' + self.date
+        return order_details
 
 
 class Wishlist(models.Model):
@@ -170,3 +202,6 @@ class Review(models.Model):
     order = models.ForeignKey(Order, null=True, on_delete=models.SET_NULL)
     description = models.CharField(max_length=255, null=True)
     rating = models.CharField(max_length=255, choices=RATING, null=True)
+
+    def __str__(self):
+        return self.rating
