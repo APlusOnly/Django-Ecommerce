@@ -1,0 +1,20 @@
+nav{
+    border-bottom: 5px solid gray;
+}
+#navbarNav{
+    margin-left: 7em;
+}
+#navbarNav li{
+    margin-right: 8em;
+}
+
+.search-input{
+    margin-top: 7px;
+    border-radius: 4px;
+}
+
+.home-image{
+    width: 100%;
+    height: 23em;
+    border: 1px solid lightgray;
+}
