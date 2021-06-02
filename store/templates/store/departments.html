@@ -6,5 +6,11 @@
 </head>
 <body>
     <h1>Departments</h1>
+    {% for department in departments %}
+        <div>
+            {{department.name}}
+        </div>
+        <br>
+    {% endfor %}
 </body>
 </html>
