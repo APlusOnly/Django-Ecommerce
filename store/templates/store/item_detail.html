@@ -1,0 +1,15 @@
+{%extends "store/main.html"%}
+{%block content%}
+    <h1>{{object.name}}</h1>
+    {% if object.stock == 'Currently Unavailable' %}
+        <p>Currently Unavailable</p>
+    {% elif object.discount_percent != 0 %}
+        <p><strike>${{object.retail_price}}</strike> <strong>${{ discount_price }}</strong></p>
+    {% else %}
+        <p>${{object.retail_price}}</p>
+    {% endif %}
+    <p>{{object.description}}</p>
+    <p>{{object.size}}</p>
+    <a href='#' class='btn btn-primary'>Add to wishlist</a>
+    <a href='#' class='btn btn-primary'>Add to cart</a>
+{%endblock content%}

@@ -31,69 +31,7 @@ class Item(models.Model):
         ('In Stock', 'In Stock'),
         ('Currently Unavailable', 'Currently Unavailable')
     )
-    # SUGGESTION
-    # maybe put department into own model, this way the admin can add and delete categories and departments much more easily
-    # add department class and category class to do it maybe, same with size and colour maybe
-    '''
-    DEPARTMENT = (
-        ('Automotive', (
-            ('Automotive Care', 'Automotive Care'),
-            ('Car Electronics & Accessories', 'Car Electronics & Accessories'),
-            ('Lights & Lighting Accessories', 'Lights & Lighting Accessories'),
-            ('Tires & Wheels', 'Tires & Wheels'),
-            ('Tools & Equipment', 'Tools & Equipment'))
-         ),
-        ('Books', (
-            ('Arts & Photography', 'Arts & Photography'),
-            ('Business & Investing', 'Business & Investing'),
-            ('Comics & Graphic Novels', 'Comics & Graphic Novels'),
-            ('Computers & Technology', 'Computers & Technology'),
-            ('History', 'History'),
-            ('Literature & Fiction', 'Literature & Fiction'),
-            ('Romance', 'Romance'),
-            ('Science & Math', 'Science & Math'),
-            ('Travel', 'Travel'))
-         ),
-        ('Clothing, Shoes & Accessories', (
-            ('Boys', 'Boys'),
-            ('Girls', 'Girls'),
-            ('Women', 'Women'),
-            ('Men', 'Men'))
-         ),
-        ('Electronics', (
-            ('Accessories & Supplies', 'Accessories & Supplies'),
-            ('Camera, Photo & Video', 'Camera, Photo & Video'),
-            ('Cell Phones & Accessories', 'Cell Phones & Accessories'),
-            ('Computers & Accessories', 'Computers & Accessories'),
-            ('Home Audio', 'Home Audio'),
-            ('Office Electronics', 'Office Electronics'),
-            ('Televisions & Video', 'Televisions & Video'))
-         ),
-        ('Home & Kitchen', (
-            ('Arts, Crafts & Sewing', 'Arts, Crafts & Sewing'),
-            ('Bath', 'Bath'),
-            ('Furniture', 'Furniture'),
-            ('Home Textiles', 'Home Textiles'),
-            ('Storage & Organization', 'Storage & Organization')
-        )),
-        ('Sports & Outdoors', (
-            ('Athletics', 'Athletics'),
-            ('Baseball', 'Baseball'),
-            ('Basketball', 'Basketball'),
-            ('Football', 'Football'),
-            ('Hockey', 'Hockey'),
-            ('Soccer', 'Soccer'),
-            ('Tennis', 'Tennis'),
-            ('Volleyball', 'Volleyball'))
-         ),
-        ('Toys & Games', (
-            ('Action & Toy Figures', 'Action & Toy Figures'),
-            ('Bikes, Scooters & Ride-Ons', 'Bikes, Scooters & Ride-Ons'),
-            ('Games & Accessories', 'Games & Accessories'),
-            ('Puzzles', 'Puzzles')
-        ))
-    )
-    '''
+  
     SIZE = (
         ('No Size', 'No Size'),
         ('Small', 'Small'),
@@ -101,6 +39,7 @@ class Item(models.Model):
         ('Large', 'Large'),
         ('X-Large', 'X-Large')
     )
+    
     name = models.CharField(max_length=255, null=True)
     cost = models.FloatField(max_length=20, null=True)
     retail_price = models.FloatField(max_length=20, null=True)
