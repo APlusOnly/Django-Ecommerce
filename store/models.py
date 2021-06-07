@@ -1,7 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
-DEFAULT_DEPARTMENT_ID = 1 # default should me miscellaneous
+DEFAULT_DEPARTMENT_ID = 1 # add photo
 class Department(models.Model):
     name = models.CharField(max_length=255)
 
@@ -56,10 +57,11 @@ class Item(models.Model):
         return self.name
 
 
-class User(models.Model):
+class Profile(models.Model):
     first_name = models.CharField(max_length=255, null=True)
     last_name = models.CharField(max_length=255, null=True)
     email = models.CharField(max_length=255, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         full_name = self.first_name + ' ' + self.last_name
@@ -138,7 +140,7 @@ class Review(models.Model):
         ('5.0', '5.0')
     )
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    order = models.ForeignKey(Order, null=True, on_delete=models.SET_NULL)
+    order = models.ForeignKey(Order, null=True, on_delete=models.SET_NULL) # maybe change to item
     description = models.CharField(max_length=255, null=True)
     rating = models.CharField(max_length=255, choices=RATING, null=True)
 

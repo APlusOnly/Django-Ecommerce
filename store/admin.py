@@ -3,5 +3,6 @@ from .models import *
 # Register your models here.
 admin.site.register(Category)
 admin.site.register(Item)
-admin.site.register(User)
 admin.site.register(Department)
+admin.site.register(Profile)
+admin.site.register(Wishlist)

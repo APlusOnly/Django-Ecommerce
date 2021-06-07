@@ -10,6 +10,10 @@
     {% endif %}
     <p>{{object.description}}</p>
     <p>{{object.size}}</p>
-    <a href='#' class='btn btn-primary'>Add to wishlist</a>
+    {% if not wishlist %}
+        <a href='#' class='btn btn-primary'>Add to wishlist</a>
+    {% else %}
+        <p>Already in wish list</p>
+    {% endif %}
     <a href='#' class='btn btn-primary'>Add to cart</a>
 {%endblock content%}

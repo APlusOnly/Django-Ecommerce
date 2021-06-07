@@ -1,4 +1,6 @@
 from typing import ItemsView
+from django.contrib.auth.models import User
+from django.http import request
 from django.shortcuts import render, redirect, get_object_or_404
 from store.models import *
 from django.views.generic import (
@@ -52,13 +54,31 @@ class CategoryDetailView(DetailView):
             context['categories'] = Category.objects.order_by('name').filter(department=cat.department)
             context['items'] = Item.objects.filter(category=cat, visible='Visible')
             return context
-
-class ItemDetailView(DetailView):
-    model = Item
-    #template_name = ''
-
+def item_view(request, pk):
+    page_item = get_object_or_404(Item, id=pk)
+    discount_price = page_item.retail_price - (page_item.retail_price * (page_item.discount_percent/100))
+    wishlist = False
+    if request.user.is_authenticated:
+        profile = request.user
+        if Wishlist.objects.all().filter(user=profile, item=page_item):
+            wishlist = True
+        else:
+            wishlist = False
+    context = {
+        'object':page_item,
+        'discount_price':discount_price,
+        'wishlist': wishlist
+    }
+    return render(request, 'store/item_detail.html', context)
+'''
     def get_context_data(self, **kwargs):
         item = get_object_or_404(Item, id=self.kwargs.get('pk'))
         context = super(ItemDetailView, self).get_context_data(**kwargs)
         context['discount_price'] = item.retail_price - (item.retail_price * (item.discount_percent/100))
+        #context['reviews'] = Review.objects.filter(order.item==item)
+        # check if on wishlist
+        if request.user.is_authenticated:
+            profile = get_object_or_404(Profile, user=self.request.user)
+            context['wishlist'] = Wishlist.objects.all().filter(user=profile.user)
         return context
+        '''
