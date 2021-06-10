@@ -1,6 +1,7 @@
 {%extends "store/main.html"%}
 {%block content%}
     <h1>{{object.name}}</h1>
+    <img src='{{object.picture.url}}'>
     {% if object.stock == 'Currently Unavailable' %}
         <p>Currently Unavailable</p>
     {% elif object.discount_percent != 0 %}

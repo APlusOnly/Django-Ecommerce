@@ -21,7 +21,17 @@
                 <div class="col-3">3</div>
             </div>
             {% for item in items %}
-                <div><a href="{% url 'item-view' item.id %}">{{ item.name }}</a></div>
+                <div>
+                    <a href="{% url 'item-view' item.0.id %}">{{ item.0.name }}</a>
+                    {% if item.0.stock == 'Currently Unavailable' %}
+                        <p>Currently Unavailable</p>
+                    {% elif item.1 != 0 %}
+                        <p><strike>${{item.0.retail_price}}</strike> <strong>${{ item.1 }}</strong></p>
+                    {% else %}
+                        <p>${{item.0.retail_price}}</p>
+                    {% endif %}
+                    <img src={{ item.0.picture.url}}>
+                </div>
             {% endfor %}
         </main>
     </div>

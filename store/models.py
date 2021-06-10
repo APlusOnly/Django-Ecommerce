@@ -48,7 +48,7 @@ class Item(models.Model):
     stock = models.CharField(max_length=255, choices=STOCK, null=True) # might be easier to put stock in size class
     category = models.ForeignKey(Category, null=True ,on_delete=models.SET_NULL)
     visible = models.CharField(max_length=255, choices=VISIBLE, null=True)
-    picture = models.ImageField(default= '#imageurl', null=True, blank=True)
+    picture = models.ImageField(default= 'default.PNG', null=True, blank=True, upload_to='item_pics')
     brand = models.CharField(max_length=255, null=True)
     size = models.CharField(max_length=255, null=True, choices=SIZE) # make size a foreign key maybe
     description = models.CharField(max_length=255, null=True)
