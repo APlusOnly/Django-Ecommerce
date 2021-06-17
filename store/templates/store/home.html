@@ -13,7 +13,8 @@
         <br>
         <div class="row">
             <aside class="col-3 bg-dark">
-                <h3 class="text-center mt-2 text-light">Departments</h3>
+                <h3 class="text-center mt-4 text-light">Departments</h3>
+                <br>
                 <ul class='pb-4'>
                     {% for department in departments %}
                     <li class="mt-3 text-light"><a class="text-light" href="{% url 'category-view' department.1.id %}">{{ department.0.name }}</a></li>
@@ -23,10 +24,19 @@
             <main class="col-9">
                 <h1 class="text-center">Best Sellers</h1>
                 <br>
-                <div class="row d-flex justify-content-md-between">
-                    <div class="col-3">1</div>
-                    <div class="col-3 bg-dark">2</div>
-                    <div class="col-3">3</div>
+                <div class="row d-flex justify-content-around">
+                    {% for bestsellers in items %}
+                    <div class="col-3">
+                        <div class="card" style="width: 15rem; padding: 10px;">
+                          <img class="card-img-top" src="{{ bestsellers.picture.url }}" alt="{{ bestsellers.name }}">
+                          <div class="card-body">
+                            <h5 class="card-title">{{ bestsellers.name }}</h5>
+                            <p class="card-text">{{ bestsellers.description }}</p>
+                            <a href="#" class="btn btn-primary">Go to item</a>
+                          </div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
                 <br>
                 <hr>

@@ -1,3 +1,7 @@
+body{
+    overflow-x: hidden;
+}
+
 nav{
     border-bottom: 5px solid gray;
 }
@@ -6,6 +10,15 @@ nav{
 }
 #navbarNav li{
     margin-right: 8em;
+}
+.navbar-brand{
+    margin-left: 11rem;
+}
+
+@media only screen and (max-width: 1600px) {
+    .navbar-brand{
+        margin-left: 1rem;
+    }
 }
 
 .search-input{
