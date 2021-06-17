@@ -15,13 +15,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-    
-'''
-class Size(models.Model):
-    item = models.ForeignKey(Item, default=)
-    size # make a list of choices from xs to xxl
-    stock = models.IntegerField() 
-'''
 
 class Item(models.Model):
     VISIBLE = (
@@ -146,3 +139,9 @@ class Review(models.Model):
 
     def __str__(self):
         return self.rating
+
+
+class Size(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    #size # make a list of choices from xs to xxl and maybe shoe sizes or can just leave it as a string field
+    stock = models.IntegerField() 
