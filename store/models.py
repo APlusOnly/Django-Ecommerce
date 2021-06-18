@@ -38,12 +38,10 @@ class Item(models.Model):
     cost = models.FloatField(max_length=20, null=True)
     retail_price = models.FloatField(max_length=20, null=True)
     discount_percent = models.FloatField(max_length=3, null=True)
-    stock = models.CharField(max_length=255, choices=STOCK, null=True) # might be easier to put stock in size class
     category = models.ForeignKey(Category, null=True ,on_delete=models.SET_NULL)
     visible = models.CharField(max_length=255, choices=VISIBLE, null=True)
     picture = models.ImageField(default= 'default.PNG', null=True, blank=True, upload_to='images')
     brand = models.CharField(max_length=255, null=True)
-    size = models.CharField(max_length=255, null=True, choices=SIZE) # make size a foreign key maybe
     description = models.CharField(max_length=255, null=True)
 
     def __str__(self):
@@ -124,6 +122,9 @@ class Wishlist(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     item = models.ForeignKey(Item, null=True, on_delete=models.SET_NULL)
 
+    def __str__(self):
+        return self.item.name
+
 class Review(models.Model):
     RATING = (
         ('1.0', '1.0'),
@@ -143,5 +144,5 @@ class Review(models.Model):
 
 class Size(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    #size # make a list of choices from xs to xxl and maybe shoe sizes or can just leave it as a string field
+    size = models.CharField(max_length=50)
     stock = models.IntegerField() 

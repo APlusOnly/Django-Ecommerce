@@ -1,9 +1,11 @@
 from typing import ItemsView
 from django.contrib.auth.models import User
 from django.http import request
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from store.models import *
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 def home(request):
@@ -34,8 +36,14 @@ def departments(request):
     }
     return render(request, 'store/departments.html', context)
 
+@login_required
 def my_account(request):
-    return render(request, 'store/my_account.html')
+    wishlist = Wishlist.objects.all()
+
+    context = {
+        'wishlist': wishlist
+    }
+    return render(request, 'store/my_account.html', context)
 
 def my_cart(request):
     return render(request, 'store/my_cart.html')
@@ -76,7 +84,18 @@ def item_view(request, pk):
     }
     return render(request, 'store/item_detail.html', context)
 
-# user views, maybe make a seperate app to handle users
-@login_required
-def profile(request):
-    return render(request, 'store/my_account.html')
+# maybe change with post, weird stuff when you hit back on the browser
+def add_wishlist(request, pk):
+    if request.user.is_authenticated:
+        item = get_object_or_404(Item, id=pk)
+        wishlist = Wishlist(item=item, user=request.user)
+        wishlist.save()
+        messages.success(request, f'{item} add to your wishlist!')
+    return redirect(item_view, pk=pk)
+
+def remove_wishlist(request, pk):
+    if request.user.is_authenticated:
+        page_item = get_object_or_404(Item, id=pk)
+        Wishlist.objects.filter(item=page_item).delete()
+        messages.success(request, f'{page_item.name} removed from your wishlist!')
+    return redirect(item_view, pk=pk)
