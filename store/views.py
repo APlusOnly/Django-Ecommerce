@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from store.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from users.models import Wishlist
 
 def home(request):
     items = Item.objects.all()
@@ -38,7 +38,7 @@ def departments(request):
 
 @login_required
 def my_account(request):
-    wishlist = Wishlist.objects.all()
+    wishlist = Wishlist.objects.filter(user=request.user)
 
     context = {
         'wishlist': wishlist
@@ -84,6 +84,7 @@ def item_view(request, pk):
     }
     return render(request, 'store/item_detail.html', context)
 
+# move to users
 # maybe change with post, weird stuff when you hit back on the browser
 def add_wishlist(request, pk):
     if request.user.is_authenticated:

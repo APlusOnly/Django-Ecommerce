@@ -23,12 +23,12 @@
           </li>
           <div>
               <li class="nav-item login-list">
-                  <a class="nav-link" href="{% url 'log_in' %}">Log Out</a>
+                  <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
               </li>
           </div>
         {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="#">Login</a>
+            <a class="nav-link" href="{% url 'login' %}">Login</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Register</a>

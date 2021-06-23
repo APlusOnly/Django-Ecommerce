@@ -48,15 +48,7 @@ class Item(models.Model):
         return self.name
 
 
-class Profile(models.Model):
-    first_name = models.CharField(max_length=255, null=True)
-    last_name = models.CharField(max_length=255, null=True)
-    email = models.CharField(max_length=255, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self):
-        full_name = self.first_name + ' ' + self.last_name
-        return full_name
 
 
 class Address(models.Model):
@@ -71,14 +63,6 @@ class Address(models.Model):
     def __str__(self):
         full_address = self.country + ' ' + self.province + ' ' + self.postal_code
         return full_address
-
-
-# can use the default django User class for some info like name and email, can be user profile
-# maybe we can put all the user stuff into a different app, might be a better practice 
-class UserProfile(models.Model):
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    picture = models.ImageField(default='#imageurl', null=True, blank=True)
-    #address = models.ManyToOneRel(Address, on_delete=models.SET_NULL)
 
 # maybe add payment type like credit card information or such if we want
 class Payment(models.Model):
@@ -117,13 +101,6 @@ class Order(models.Model):
         order_details = self.item.name + ' ' + self.date
         return order_details
 
-
-class Wishlist(models.Model):
-    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    item = models.ForeignKey(Item, null=True, on_delete=models.SET_NULL)
-
-    def __str__(self):
-        return self.item.name
 
 class Review(models.Model):
     RATING = (
