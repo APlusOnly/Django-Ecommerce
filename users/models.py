@@ -6,8 +6,10 @@ from store.models import Item
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    picture = models.ImageField(default='#imageurl', null=True, blank=True)
-    #address = models.ManyToOneRel(Address, on_delete=models.SET_NULL)
+    picture = models.ImageField(default= 'default.PNG', null=True, blank=True, upload_to='images')
+    
+    def __str__(self):
+        return f'{self.user.username} Profile'
 
 # idk if this needs to be here but 
 class Wishlist(models.Model):

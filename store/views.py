@@ -4,7 +4,6 @@ from django.http import request
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from store.models import *
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from users.models import Wishlist
 
@@ -36,20 +35,24 @@ def departments(request):
     }
     return render(request, 'store/departments.html', context)
 
-@login_required
-def my_account(request):
-    wishlist = Wishlist.objects.filter(user=request.user)
+
+
+def item_view(request, pk):
+    page_item = get_object_or_404(Item, id=pk)
+    discount_price = page_item.retail_price - (page_item.retail_price * (page_item.discount_percent/100))
+    wishlist = False
+    if request.user.is_authenticated:
+        profile = request.user
+        if Wishlist.objects.all().filter(user=profile, item=page_item):
+            wishlist = True
 
     context = {
+        'object':page_item,
+        'discount_price':discount_price,
         'wishlist': wishlist
     }
-    return render(request, 'store/my_account.html', context)
+    return render(request, 'store/item_detail.html', context)
 
-def my_cart(request):
-    return render(request, 'store/my_cart.html')
-
-def log_in(request):
-    return render(request, 'store/log_in.html')
 
 def category_view(request, pk):
     object = get_object_or_404(Category, id=pk)
@@ -68,22 +71,11 @@ def category_view(request, pk):
     
     return render(request, 'store/category_view.html', context)
 
-def item_view(request, pk):
-    page_item = get_object_or_404(Item, id=pk)
-    discount_price = page_item.retail_price - (page_item.retail_price * (page_item.discount_percent/100))
-    wishlist = False
-    if request.user.is_authenticated:
-        profile = request.user
-        if Wishlist.objects.all().filter(user=profile, item=page_item):
-            wishlist = True
 
-    context = {
-        'object':page_item,
-        'discount_price':discount_price,
-        'wishlist': wishlist
-    }
-    return render(request, 'store/item_detail.html', context)
+def my_cart(request):
+    return render(request, 'store/my_cart.html')
 
+    
 # move to users
 # maybe change with post, weird stuff when you hit back on the browser
 def add_wishlist(request, pk):
