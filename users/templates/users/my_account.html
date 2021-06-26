@@ -8,5 +8,25 @@
                 {{w.item.name}}
             </div>
         {% endfor %}
+
+        <h1>Your Addresses</h1>
+        {% for address in addresses %}
+        	<div>
+        		<h3>{{address.street}}</h3>
+        		<p>{{address.city}}, {{address.province}}</p>
+        		<p>{{address.postal_code}}</p>
+        	</div>
+        {% endfor %}
+
+        <h1>Your Payments</h1>
+        {% for payment in payments %}
+        	<div>
+        		<button onclick="paymentToggle('{{forloop.counter}}')">^</button> 
+        		<p>{{payment.type}} ending in {{payment}}</p>
+        		<div style='display: none' id='{{forloop.counter}}'> <!-- idk why using a class doesnt work (class is payment_details) -->
+        			<p>Expires {{payment.expire_date}}</p>
+        		</div>
+        	</div>
+        {% endfor %}
     </div>
 {%endblock content%}

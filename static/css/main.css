@@ -15,6 +15,14 @@ nav{
     margin-left: 11rem;
 }
 
+.payment_details{
+    display: none
+}
+
+.h1{
+    color: blue
+}
+
 @media only screen and (max-width: 1600px) {
     .navbar-brand{
         margin-left: 1rem;
@@ -31,3 +39,4 @@ nav{
     height: 23em;
     border: 1px solid lightgray;
 }
+

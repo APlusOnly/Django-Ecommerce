@@ -9,3 +9,12 @@ function showSlidesAutomatic() {
   slides[slideIndexAutomatic-1].style.display = "block";
   setTimeout(showSlidesAutomatic, 4000); // Change image every 2 seconds
 }
+
+function paymentToggle(id) {
+  var x = document.getElementById(id);
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}

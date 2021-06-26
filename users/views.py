@@ -7,8 +7,12 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def my_account(request):
     wishlist = Wishlist.objects.filter(user=request.user)
+    payments = Payment.objects.filter(user=request.user)
+    addresses = Address.objects.filter(user=request.user)
 
     context = {
-        'wishlist': wishlist
+        'wishlist': wishlist,
+        'payments': payments,
+        'addresses': addresses
     }
     return render(request, 'users/my_account.html', context)
