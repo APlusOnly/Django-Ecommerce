@@ -25,7 +25,11 @@
         		<p>{{payment.type}} ending in {{payment}}</p>
         		<div style='display: none' id='{{forloop.counter}}'> <!-- idk why using a class doesnt work (class is payment_details) -->
         			<p>Expires {{payment.expire_date}}</p>
+        			<p>Name on card: {{payment.first_name}} {{payment.last_name}}</p>
+        			<a href="{% url 'payment-delete' payment.id%}">remove</a>
+        			<a href="#">edit</a>
         		</div>
+
         	</div>
         {% endfor %}
     </div>

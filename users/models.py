@@ -30,6 +30,8 @@ class Payment(models.Model):
     card_number = models.CharField(max_length=19)
     expire_date = models.DateField()
     cvv = models.CharField(max_length=4)
+    first_name = models.CharField(max_length=100, default="first name")
+    last_name = models.CharField(max_length=100, default="last name")
     type = models.CharField(max_length=100,choices=TYPES)
 
     def __str__(self):
