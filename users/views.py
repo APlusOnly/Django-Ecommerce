@@ -4,7 +4,9 @@ from users.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
-    DeleteView
+    DeleteView,
+    CreateView,
+    UpdateView
 )
 
 # Create your views here.
@@ -31,3 +33,46 @@ class PaymentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == payment.user:
             return True
         return False
+
+class AddressCreateView(LoginRequiredMixin, CreateView):
+    model = Address
+    fields = ['country', 'province', 'city', 'street', 'apartment_number', 'postal_code']
+    success_url = '/profile/'
+    action = 'Create'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_action(self):
+        return self.action
+
+
+class AddressDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Address
+    success_url = '/profile/'
+
+    def test_func(self):
+        address = self.get_object()
+        if self.request.user == address.user:
+            return True
+        return False
+
+class AddressUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Address
+    fields = ['country', 'province', 'city', 'street', 'apartment_number', 'postal_code']
+    success_url = '/profile/'
+    action = 'Update'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        address = self.get_object()
+        if self.request.user == address.user:
+            return True
+        return False
+
+    def get_action(self):
+        return self.action

@@ -10,9 +10,12 @@
         {% endfor %}
 
         <h1>Your Addresses</h1>
+        <a href="{% url 'address-create' %}">add address</a>
         {% for address in addresses %}
         	<div>
         		<h3>{{address.street}}</h3>
+                <a href="{% url 'address-delete' address.id%}">remove</a>
+                <a href="{% url 'address-update' address.id%}">update</a>
         		<p>{{address.city}}, {{address.province}}</p>
         		<p>{{address.postal_code}}</p>
         	</div>
@@ -29,7 +32,6 @@
         			<a href="{% url 'payment-delete' payment.id%}">remove</a>
         			<a href="#">edit</a>
         		</div>
-
         	</div>
         {% endfor %}
     </div>

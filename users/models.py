@@ -43,7 +43,7 @@ class Address(models.Model):
     province = models.CharField(max_length=255, null=True)
     city = models.CharField(max_length=255, null=True)
     street = models.CharField(max_length=255, null=True)
-    apartment_number = models.FloatField(max_length=10, null=True)
+    apartment_number = models.FloatField(max_length=10, null=True) # make sure it can be null
     postal_code = models.CharField(max_length=10, null=True)
 
     def __str__(self):
