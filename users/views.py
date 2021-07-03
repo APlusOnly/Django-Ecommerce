@@ -9,7 +9,7 @@ from django.views.generic import (
     UpdateView
 )
 
-# Create your views here.
+
 @login_required
 def my_account(request):
     wishlist = Wishlist.objects.filter(user=request.user)
@@ -33,6 +33,38 @@ class PaymentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == payment.user:
             return True
         return False
+
+class PaymentCreateView(LoginRequiredMixin, CreateView):
+    model = Payment
+    fields = ['card_number', 'expire_date', 'cvv', 'first_name', 'last_name', 'type']
+    success_url = '/profile/'
+    action = 'Create'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_action(self):
+        return self.action
+
+class PaymentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Payment
+    fields = ['card_number', 'expire_date', 'cvv', 'first_name', 'last_name', 'type']
+    success_url = '/profile/'
+    action = 'Update'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        payment = self.get_object()
+        if self.request.user == payment.user:
+            return True
+        return False
+
+    def get_action(self):
+        return self.action
 
 class AddressCreateView(LoginRequiredMixin, CreateView):
     model = Address

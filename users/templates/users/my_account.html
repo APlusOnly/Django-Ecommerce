@@ -5,7 +5,7 @@
         <h1>Wishlist!</h1>
         {% for w in wishlist %}
             <div>
-                {{w.item.name}}
+                <a href="{% url 'item-view' w.item.id %}">{{w.item.name}}</a>
             </div>
         {% endfor %}
 
@@ -22,6 +22,7 @@
         {% endfor %}
 
         <h1>Your Payments</h1>
+        <a href="{% url 'payment-create' %}">add payment</a>
         {% for payment in payments %}
         	<div>
         		<button onclick="paymentToggle('{{forloop.counter}}')">^</button> 
@@ -29,8 +30,8 @@
         		<div style='display: none' id='{{forloop.counter}}'> <!-- idk why using a class doesnt work (class is payment_details) -->
         			<p>Expires {{payment.expire_date}}</p>
         			<p>Name on card: {{payment.first_name}} {{payment.last_name}}</p>
-        			<a href="{% url 'payment-delete' payment.id%}">remove</a>
-        			<a href="#">edit</a>
+        			<a href="{% url 'payment-delete' payment.id %}">remove</a>
+        			<a href="{% url 'payment-update' payment.id %}">edit</a>
         		</div>
         	</div>
         {% endfor %}
