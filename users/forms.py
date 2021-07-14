@@ -7,4 +7,4 @@ import datetime
 
 # idk how to properly implement forms into class views
 class PaymentCreationForm(forms.Form):
-    expire_date = forms.DateField(initial=datetime.date.today, widget=forms.DateInput(attrs={'placeholder':'MM/DD'}))
+    exprie_date = forms.DateField()

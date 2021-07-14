@@ -36,9 +36,10 @@ class PaymentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-class PaymentCreateView(LoginRequiredMixin, FormView):
+class PaymentCreateView(LoginRequiredMixin, FormView, CreateView):
     model = Payment
-    form_class = PaymentCreationForm
+    #form_class = PaymentCreationForm
+    fields = ['card_number', 'first_name', 'last_name', 'expire_date', 'cvv', 'type']
     success_url = '/profile/'
     action = 'Create'
     template_name = "users/payment_form.html"
