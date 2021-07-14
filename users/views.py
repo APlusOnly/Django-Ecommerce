@@ -3,10 +3,12 @@ from store.models import Item, Category
 from users.models import *
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .forms import PaymentCreationForm
 from django.views.generic import (
     DeleteView,
     CreateView,
-    UpdateView
+    UpdateView,
+    FormView
 )
 
 
@@ -34,11 +36,12 @@ class PaymentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-class PaymentCreateView(LoginRequiredMixin, CreateView):
+class PaymentCreateView(LoginRequiredMixin, FormView):
     model = Payment
-    fields = ['card_number', 'expire_date', 'cvv', 'first_name', 'last_name', 'type']
+    form_class = PaymentCreationForm
     success_url = '/profile/'
     action = 'Create'
+    template_name = "users/payment_form.html"
 
     def form_valid(self, form):
         form.instance.user = self.request.user
