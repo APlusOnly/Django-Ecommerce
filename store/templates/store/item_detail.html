@@ -16,7 +16,7 @@
         <a href="{% url 'add-wishlist' object.id %}" class='btn btn-primary'>Add to wishlist</a>
     {% else %}
         <p>Already in wish list</p>
-        <a href="{% url 'remove-wishlist' object.id %}" class='btn btn-primary'>Remove from wishlist</a>
+        <a href="{% url 'remove-wishlist' object.id 'item' %}" class='btn btn-primary'>Remove from wishlist</a>
     {% endif %}
     <a href='#' class='btn btn-primary'>Add to cart</a>
 {%endblock content%}

@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from store.models import *
 from django.contrib import messages
 from users.models import Wishlist
+from users import views
 
 def home(request):
     items = Item.objects.all()
@@ -86,9 +87,9 @@ def add_wishlist(request, pk):
         messages.success(request, f'{item} add to your wishlist!')
     return redirect(item_view, pk=pk)
 
-def remove_wishlist(request, pk):
+def remove_wishlist(request, pk, location):
     if request.user.is_authenticated:
         page_item = get_object_or_404(Item, id=pk)
         Wishlist.objects.filter(item=page_item).delete()
         messages.success(request, f'{page_item.name} removed from your wishlist!')
-    return redirect(item_view, pk=pk)
+        return redirect(item_view, pk=pk)

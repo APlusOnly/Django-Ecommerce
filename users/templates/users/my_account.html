@@ -25,13 +25,13 @@
         <a href="{% url 'payment-create' %}">add payment</a>
         {% for payment in payments %}
         	<div>
-        		<button onclick="paymentToggle('{{forloop.counter}}')">^</button> 
+        		<button class="payment-hide" onclick="paymentToggle('{{forloop.counter}}')">^</button> 
         		<p>{{payment.type}} ending in {{payment}}</p>
-        		<div style='display: none' id='{{forloop.counter}}'> <!-- idk why using a class doesnt work (class is payment_details) -->
+        		<div class="payment-details" style='display: none' id='{{forloop.counter}}'> <!-- idk why using a class doesnt work (class is payment_details) -->
         			<p>Expires {{payment.expire_date}}</p>
         			<p>Name on card: {{payment.first_name}} {{payment.last_name}}</p>
-        			<a href="{% url 'payment-delete' payment.id %}">remove</a>
-        			<a href="{% url 'payment-update' payment.id %}">edit</a>
+        			<a class="btn btn-danger" href="{% url 'payment-delete' payment.id %}">remove</a>
+        			<a class="btn btn-secondary" href="{% url 'payment-update' payment.id %}">edit</a>
         		</div>
         	</div>
         {% endfor %}
