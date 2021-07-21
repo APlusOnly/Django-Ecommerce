@@ -9,7 +9,7 @@ from users.models import Wishlist
 from users import views
 
 def home(request):
-    items = Item.objects.all()
+    items = Item.objects.filter(visible="Visible")
     departments = Department.objects.all().order_by('name')
 
     # get department category
@@ -42,6 +42,10 @@ def item_view(request, pk):
     page_item = get_object_or_404(Item, id=pk)
     discount_price = page_item.retail_price - (page_item.retail_price * (page_item.discount_percent/100))
     wishlist = False
+    # check if item is visible
+    if page_item.visible == 'Not Visible':
+        messages.success(request, "Item DNE")
+        return redirect(home)
     if request.user.is_authenticated:
         profile = request.user
         if Wishlist.objects.all().filter(user=profile, item=page_item):

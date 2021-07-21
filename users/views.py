@@ -8,7 +8,8 @@ from django.views.generic import (
     DeleteView,
     CreateView,
     UpdateView,
-    FormView
+    FormView,
+    ListView
 )
 
 
@@ -69,6 +70,14 @@ class PaymentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_action(self):
         return self.action
+
+class AddressListView(LoginRequiredMixin, ListView):
+    model: Address
+    context_object_name = 'addresses'
+
+    def get_queryset(self):
+        user1 = self.request.user
+        return Address.objects.filter(user=user1)
 
 class AddressCreateView(LoginRequiredMixin, CreateView):
     model = Address

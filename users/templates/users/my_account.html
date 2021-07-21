@@ -1,39 +1,12 @@
 {%extends "store/main.html"%}
 {%block content%}
-    <h1>Welcome {{user.first_name}}!</h1>
-    <div>
-        <h1>Wishlist!</h1>
-        {% for w in wishlist %}
-            <div>
-                <a href="{% url 'item-view' w.item.id %}">{{w.item.name}}</a>
-            </div>
-        {% endfor %}
-
-        <h1>Your Addresses</h1>
-        <a href="{% url 'address-create' %}">add address</a>
-        {% for address in addresses %}
-        	<div>
-        		<h3>{{address.street}}</h3>
-                <a href="{% url 'address-delete' address.id%}">remove</a>
-                <a href="{% url 'address-update' address.id%}">update</a>
-        		<p>{{address.city}}, {{address.province}}</p>
-        		<p>{{address.postal_code}}</p>
-        	</div>
-        {% endfor %}
-
-        <h1>Your Payments</h1>
-        <a href="{% url 'payment-create' %}">add payment</a>
-        {% for payment in payments %}
-        	<div>
-        		<button class="payment-hide" onclick="paymentToggle('{{forloop.counter}}')">^</button> 
-        		<p>{{payment.type}} ending in {{payment}}</p>
-        		<div class="payment-details" style='display: none' id='{{forloop.counter}}'> <!-- idk why using a class doesnt work (class is payment_details) -->
-        			<p>Expires {{payment.expire_date}}</p>
-        			<p>Name on card: {{payment.first_name}} {{payment.last_name}}</p>
-        			<a class="btn btn-danger" href="{% url 'payment-delete' payment.id %}">remove</a>
-        			<a class="btn btn-secondary" href="{% url 'payment-update' payment.id %}">edit</a>
-        		</div>
-        	</div>
-        {% endfor %}
+	<div  class='account-header'>
+        <h1>Welcome {{user.first_name}}!</h1>
     </div>
+    <hr>
+	<div class="account-menu">
+		<div class="grid-item">Your Orders</div>
+		<div class="grid-item">Your Payments</div>
+		<div class="grid-item">Your Addresses</div>
+	</div>
 {%endblock content%}

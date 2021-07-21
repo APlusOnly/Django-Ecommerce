@@ -31,6 +31,35 @@ nav{
 .h1{
     color: blue
 }
+/* account page css */
+.account-wishlist{
+    position: relative;
+    float: right;
+}
+
+.account-header{
+    margin: auto;
+    width: 50%;
+    text-align: center;
+}
+
+.account-menu{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding:  10px;
+    grid-gap: 50px;
+    width:  50%;
+    margin: auto;
+}
+
+.grid-item{
+    border:  1px solid green;
+    text-align:  center;
+}
+
+.grid-item:hover{
+    background: lightgrey;
+}
 
 @media only screen and (max-width: 1600px) {
     .navbar-brand{
